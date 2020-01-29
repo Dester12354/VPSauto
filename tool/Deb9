@@ -43,7 +43,7 @@ sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear
 sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=442/g' /etc/default/dropbear
 echo "/bin/false" >> /etc/shells
 
-# install squid3
+# install privoxy
 cat > /etc/privoxy/config <<-END
 user-manual /usr/share/doc/privoxy/user-manual
 confdir /etc/privoxy
@@ -84,13 +84,13 @@ mkdir /etc/openvpn/easy-rsa/keys
 
 # replace bits
 sed -i 's|export KEY_COUNTRY="US"|export KEY_COUNTRY="PH"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_PROVINCE="CA"|export KEY_PROVINCE="Rizal"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_CITY="SanFrancisco"|export KEY_CITY="Antipolo"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_PROVINCE="CA"|export KEY_PROVINCE="Leyte"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_CITY="SanFrancisco"|export KEY_CITY="Tacloban"|' /etc/openvpn/easy-rsa/vars
 sed -i 's|export KEY_ORG="Fort-Funston"|export KEY_ORG="EZ"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_EMAIL="me@myhost.mydomain"|export KEY_EMAIL="ezvpn@gmail.com"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_OU="MyOrganizationalUnit"|export KEY_OU="EZvpn"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_NAME="EasyRSA"|export KEY_NAME="EZvpn"|' /etc/openvpn/easy-rsa/vars
-sed -i 's|export KEY_OU=changeme|export KEY_OU=EZvpn|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_EMAIL="me@myhost.mydomain"|export KEY_EMAIL="destervious@gmail.com"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_OU="MyOrganizationalUnit"|export KEY_OU="VPNALLLNET"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_NAME="EasyRSA"|export KEY_NAME="Pr3vpn"|' /etc/openvpn/easy-rsa/vars
+sed -i 's|export KEY_OU=changeme|export KEY_OU=Pr3vpn|' /etc/openvpn/easy-rsa/vars
 #Create Diffie-Helman Pem
 openssl dhparam -out /etc/openvpn/dh2048.pem 2048
 # Create PKI
@@ -153,7 +153,7 @@ END
 systemctl start openvpn@server
 #Create OpenVPN Config
 mkdir -p /home/vps/public_html
-cat > /home/vps/public_html/client.ovpn <<-END
+cat > /home/vps/public_html/GlobeTmConfig.ovpn <<-END
 
 # Created by Rested
 auth-user-pass
@@ -180,14 +180,14 @@ cipher none
 auth none
 http-proxy $MYIP 8080
 http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.1
-http-proxy-option CUSTOM-HEADER Host weixin.qq.cn
-http-proxy-option CUSTOM-HEADER X-Forward-Host weixin.qq.cn
+http-proxy-option CUSTOM-HEADER Host ssl.gstatic.com
+http-proxy-option CUSTOM-HEADER X-Forward-Host ssl.gstatic.com
 http-proxy-option CUSTOM-HEADER Connection: Keep-Alive
 http-proxy-option CUSTOM-HEADER Proxy-Connection: keep-alive
 END
-echo '<ca>' >> /home/vps/public_html/client.ovpn
+echo '<ca>' >> /home/vps/public_html/GlobeTmConfig.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/client.ovpn
-echo '</ca>' >> /home/vps/public_html/client.ovpn
+echo '</ca>' >> /home/vps/public_html/GlobeTmConfig.ovpn
 
 cat > /home/vps/public_html/OpenVPN-Stunnel.ovpn <<-END
 
