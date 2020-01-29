@@ -197,7 +197,7 @@ echo '</ca>' >> /home/vps/public_html/client.ovpn
 
 cat > /home/vps/public_html/OpenVPN-Stunnel.ovpn <<-END
 
-# Created by wang zki
+# Created by Rested
 auth-user-pass
 client
 dev tun
@@ -379,7 +379,7 @@ echo "PLEASE WAIT PATIENTLY AND RELOGIN TO YOUR VPS"
 echo " "
 echo "--------------------------- Configuration Setup Server -------------------------"
 echo "                         Copyright HostingTermurah.net                          "
-echo "                                Modified by wangzki                        "
+echo "                                Modified by Rested                       "
 echo "--------------------------------------------------------------------------------"
 echo ""  | tee -a log-install.txt
 echo "Server Information"  | tee -a log-install.txt
