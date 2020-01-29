@@ -262,6 +262,37 @@ echo '<ca>' >> /home/vps/public_html/SunConfig.ovpn
 cat /etc/openvpn/ca.crt >> /home/vps/public_html/SunConfig.ovpn
 echo '</ca>' >> /home/vps/public_html/SunConfig.ovpn
 END
+#Create OpenVPN SunConfig
+mkdir -p /home/vps/public_html
+cat > /home/vps/public_html/SunNoloadConfig.ovpn <<-END
+
+# Created by Rested
+auth-user-pass
+client
+dev tun
+proto tcp
+remote $MYIP 110
+persist-key
+persist-tun
+bind
+float
+remote-cert-tls server
+verb 0
+auth-user-pass
+redirect-gateway def1
+cipher none
+auth none
+auth-nocache
+auth-retry interact
+connect-retry 0 1
+nice -20
+reneg-sec 0
+log /dev/null
+END
+echo '<ca>' >> /home/vps/public_html/SunNoloadConfig.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/SunNoloadConfig.ovpn
+echo '</ca>' >> /home/vps/public_html/SunNoloadConfig.ovpn
+END
 
 
 # Configure Stunnel
