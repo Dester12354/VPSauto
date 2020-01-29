@@ -123,7 +123,7 @@ chmod +x /etc/openvpn/ca.crt
 tar -xzvf /root/plugin.tgz -C /usr/lib/openvpn/
 chmod +x /usr/lib/openvpn/*
 cat > /etc/openvpn/server.conf <<-END
-port 1147
+port 110
 proto tcp
 dev tun
 ca ca.crt
@@ -166,7 +166,7 @@ auth-user-pass
 client
 dev tun
 proto tcp
-remote $MYIP 1147
+remote $MYIP 110
 persist-key
 persist-tun
 pull
@@ -202,7 +202,7 @@ auth-user-pass
 client
 dev tun
 proto tcp
-remote 127.0.0.1 1147
+remote 127.0.0.1 110
 route $MYIP 255.255.255.255 net_gateway
 persist-key
 persist-tun
@@ -232,7 +232,7 @@ client = yes
 debug = 6
 
 [openvpn]
-accept = 127.0.0.1:1147
+accept = 127.0.0.1:110
 connect = $MYIP:587
 TIMEOUTclose = 0
 verify = 0
@@ -252,7 +252,7 @@ client = no
 
 [openvpn]
 accept = 587
-connect = 127.0.0.1:1147
+connect = 127.0.0.1:110
 cert = /etc/stunnel/stunnel.pem
 
 [dropbear]
@@ -264,7 +264,7 @@ END
 
 #Setting UFW
 ufw allow ssh
-ufw allow 1147/tcp
+ufw allow 110/tcp
 sed -i 's|DEFAULT_INPUT_POLICY="DROP"|DEFAULT_INPUT_POLICY="ACCEPT"|' /etc/default/ufw
 sed -i 's|DEFAULT_FORWARD_POLICY="DROP"|DEFAULT_FORWARD_POLICY="ACCEPT"|' /etc/default/ufw
 
@@ -408,7 +408,7 @@ echo "   - Installation Log        : cat /root/log-install.txt"  | tee -a log-in
 echo ""  | tee -a log-install.txt
 echo "   - Webmin                  : http://$MYIP:10000/"  | tee -a log-install.txt
 echo ""
-echo "------------------------------ Modified by Wangzki -----------------------------"
+echo "------------------------------ Modified by Rested-----------------------------"
 echo "-----Rebooting your VPS -----"
 sleep 5
 reboot
