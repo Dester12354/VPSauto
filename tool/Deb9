@@ -151,7 +151,7 @@ auth none
 
 END
 systemctl start openvpn@server
-#Create OpenVPN Config
+#Create OpenVPN GlobeTmConfig
 mkdir -p /home/vps/public_html
 cat > /home/vps/public_html/GlobeTmConfig.ovpn <<-END
 
@@ -186,18 +186,19 @@ http-proxy-option CUSTOM-HEADER Connection: Keep-Alive
 http-proxy-option CUSTOM-HEADER Proxy-Connection: keep-alive
 END
 echo '<ca>' >> /home/vps/public_html/GlobeTmConfig.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/client.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/GlobeTmConfig.ovpn
 echo '</ca>' >> /home/vps/public_html/GlobeTmConfig.ovpn
-
-cat > /home/vps/public_html/OpenVPN-Stunnel.ovpn <<-END
+END
+#Create OpenVPN SmartNoloadConfig
+mkdir -p /home/vps/public_html
+cat > /home/vps/public_html/SmartNoload.ovpn <<-END
 
 # Created by Rested
 auth-user-pass
 client
 dev tun
 proto tcp
-remote 127.0.0.1 110
-route $MYIP 255.255.255.255 net_gateway
+remote $MYIP:110@www.smart.com.ph
 persist-key
 persist-tun
 pull
@@ -215,23 +216,53 @@ redirect-gateway def1
 script-security 2
 cipher none
 auth none
+http-proxy $MYIP 8080
+http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.1
+http-proxy-option CUSTOM-HEADER Host www.smart.com.ph
+http-proxy-option CUSTOM-HEADER X-Forward-Host www.smart.com.ph
+http-proxy-option CUSTOM-HEADER Connection: Keep-Alive
+http-proxy-option CUSTOM-HEADER Proxy-Connection: keep-alive
 END
-echo '<ca>' >> /home/vps/public_html/OpenVPN-Stunnel.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/OpenVPN-Stunnel.ovpn
-echo '</ca>' >> /home/vps/public_html/OpenVPN-Stunnel.ovpn
-
-cat > /home/vps/public_html/stunnel.conf <<-END
-
-client = yes
-debug = 6
-
-[openvpn]
-accept = 127.0.0.1:110
-connect = $MYIP:587
-TIMEOUTclose = 0
-verify = 0
-sni = m.facebook.com
+echo '<ca>' >> /home/vps/public_html/SmartNoload.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/SmartNoload.ovpn
+echo '</ca>' >> /home/vps/public_html/SmartNoload.ovpn
 END
+#Create OpenVPN SunConfig
+mkdir -p /home/vps/public_html
+cat > /home/vps/public_html/SunConfig.ovpn <<-END
+
+# Created by Rested
+auth-user-pass
+client
+dev tun
+proto tcp
+remote $MYIP 110
+persist-key
+persist-tun
+pull
+resolv-retry infinite
+nobind
+user nobody
+comp-lzo
+remote-cert-tls server
+verb 3
+mute 2
+connect-retry 5 5
+connect-retry-max 8080
+mute-replay-warnings
+redirect-gateway def1
+script-security 2
+cipher none
+auth none
+http-proxy $MYIP 8080
+http-proxy-option CUSTOM-HEADER ""
+http-proxy-option CUSTOM-HEADER "POST https://viber.com HTTP/1.0"
+END
+echo '<ca>' >> /home/vps/public_html/SunConfig.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/SunConfig.ovpn
+echo '</ca>' >> /home/vps/public_html/SunConfig.ovpn
+END
+
 
 # Configure Stunnel
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
