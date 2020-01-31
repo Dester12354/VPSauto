@@ -459,7 +459,10 @@ echo "   To display list of commands: menu"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Important Information"  | tee -a log-install.txt
-echo "   - Download Config OpenVPN : http://$MYIP/configs.zip"  | tee -a log-install.txt
+echo "   - Download Config OpenVPN : http://$MYIP/GlobeTmConfig.ovpn"  | tee -a log-install.txt
+echo "   - Download Config OpenVPN : http://$MYIP/SmartNoload.ovpn"  | tee -a log-install.txt
+echo "   - Download Config OpenVPN : http://$MYIP/SunConfig.ovpn"  | tee -a log-install.txt
+echo "   - Download Config OpenVPN : http://$MYIP/SunNoloadConfig.ovpn"  | tee -a log-install.txt
 echo "   - Installation Log        : cat /root/log-install.txt"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "   - Webmin                  : http://$MYIP:10000/"  | tee -a log-install.txt
